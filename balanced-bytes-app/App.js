@@ -12,7 +12,6 @@ const imageWidth = dimensions.width;
 const imageHeight = dimensions.height;
 
 
-
 export default function App() {
   return (
     <ScrollView>
