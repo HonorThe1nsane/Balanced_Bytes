@@ -1,5 +1,6 @@
 # Balanced_Bytes
-A way to educate kids on nutrition and have fun while doing it. 
+
+A way to educate kids on nutrition and have fun while doing it.
 Intro:
 
 Is your child a picky eater? Do you struggle to motivate them to make healthy choices? Introducing [Project Name], the playful app that empowers kids to explore nutrition and build better eating habits through interactive games, colorful charts, and rewarding challenges.
