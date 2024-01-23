@@ -1,20 +1,20 @@
-const user = {
-    name: 'Hedy Lamarr',
-    imageUrl: 'https://i.imgur.com/yXOvdOSs.jpg',
-    imageSize: 90,
-};
+import { Dimensions, Image } from 'react-native';
+// Make the image size proportinal to the screen dimensions
+const dimensions = Dimensions.get('window');
+const imageWidth = dimensions.width;
+const imageHeight = dimensions.height;
 
-export default function Profile() {
+export default function Welcome() {
     return (
         <>
-            <h1>{user.name}</h1>
+        <div className="weclome screen">Welcome</div>
             <img
-                className="avatar"
-                src={user.imageUrl}
-                alt={'Photo of ' + user.name}
+                className="logo"
+                src={images / b_b_logo.png}
+                alt={'Photo of B and B Logo'}
                 style={{
-                    width: user.imageSize,
-                    height: user.imageSize
+                    width: imageWidth,
+                    height: imageHeight
                 }}
             />
         </>
