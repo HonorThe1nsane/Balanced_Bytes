@@ -5,6 +5,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "plugins": [
+      "expo-apple-authentication"
+    ],
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -15,6 +18,7 @@
       "**/*"
     ],
     "ios": {
+      "usesAppleSignIn": true,
       "supportsTablet": true
     },
     "android": {
