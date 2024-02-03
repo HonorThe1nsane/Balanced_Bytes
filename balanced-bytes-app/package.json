@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.3.0",
+    "@react-navigation/native": "^6.1.9",
+    "@react-navigation/stack": "^6.3.20",
     "expo": "^50.0.4",
     "expo-apple-authentication": "^6.3.0",
     "expo-status-bar": "~1.11.1",

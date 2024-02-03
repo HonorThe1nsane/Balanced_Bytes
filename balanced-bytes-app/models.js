@@ -8,6 +8,8 @@ User.schema = {
         userId: 'string',
         name: 'string',
         email: 'string',
+        imageUrl: 'string',
+        imageSize: 'string',
         // Add other user-related properties
     },
 };
