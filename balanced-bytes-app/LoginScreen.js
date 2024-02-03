@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as AppleAuthentication from 'expo-apple-authentication'; // Apple login
+import { useNavigation } from '@react-navigation/native';
 
 // import { Dimensions } from 'react-native';
 // const dimensions = Dimensions.get('window');
@@ -9,6 +10,7 @@ import * as AppleAuthentication from 'expo-apple-authentication'; // Apple login
 
 
 const LoginScreen = () => {
+    const navigation = useNavigation();
     const signInWithApple = async () => {
         try {
             const credential = await AppleAuthentication.signInAsync({
@@ -27,24 +29,14 @@ const LoginScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <Image
-                    source={require('./assets/b_b_logo.png')}
-                    style={{
-                        flex: 1,
-                        resizeMode: 'cover',
-                        width: '100%',
-                        height: '100%',
-                    }}
-                />
-                <View style={styles.overlay}>
-                    <Text style={styles.welcomeText}>Balanced Bytes</Text>
-                    <TouchableOpacity style={styles.appleButton} onPress={handleLogin}>
-                        <Ionicons name="logo-apple" size={24} color="white" />
-                        <Text style={styles.appleButtonText}>Sign In with Apple</Text>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
+            <Image source={require('./assets/b_b_logo.png')} style={styles.wallpaper} resizeMode="cover" />
+            <View style={styles.overlay}>
+                <Text style={styles.welcomeText}>Balanced Bytes</Text>
+                <TouchableOpacity style={styles.appleButton} onPress={handleLogin}>
+                    <Ionicons name="logo-apple" size={24} color="white" />
+                    <Text style={styles.appleButtonText}>Sign In with Apple</Text>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     );
 };
@@ -52,16 +44,10 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-    },
-    scrollContainer: {
-        flexGrow: 1,
+        backgroundColor: 'transparent',
     },
     wallpaper: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
+        ...StyleSheet.absoluteFillObject,
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
@@ -72,7 +58,7 @@ const styles = StyleSheet.create({
     welcomeText: {
         fontSize: 32,
         color: 'white',
-        marginBottom: 120,
+        marginTop: 20,
     },
     appleButton: {
         flexDirection: 'row',
@@ -81,6 +67,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         padding: 10,
         borderRadius: 8,
+        marginTop: 20,
     },
     appleButtonText: {
         color: 'white',
@@ -89,5 +76,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
-
 export default LoginScreen;
