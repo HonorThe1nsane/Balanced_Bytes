@@ -1,28 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as AppleAuthentication from 'expo-apple-authentication'; // Apple login
 import { useNavigation } from '@react-navigation/native';
+import Realm from 'realm';
+import { UserSchema } from '.Models.js';
 
-// import { Dimensions } from 'react-native';
-// const dimensions = Dimensions.get('window');
 
 
 
 const LoginScreen = () => {
     const navigation = useNavigation();
+
     const signInWithApple = async () => {
         try {
             const credential = await AppleAuthentication.signInAsync({
-                requestedScopes: [AppleAuthentication.AppleAuthenticationScope.EMAIL, AppleAuthentication.AppleAuthenticationScope.FULL_NAME,]
+                requestedScopes: [
+                    AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                ],
             });
+
             // Handle successful authentication
+            const { email, fullName, user: { identifier } } = credential;
+
+            // Save the user data to Realm
+            Realm.open({
+                schema: [UserSchema],
+                schemaVersion: 0,
+            }).then((realm) => {
+                realm.write(() => {
+                    realm.create('User', {
+                        id: identifier,
+                        name: fullName,
+                        email: email,
+                    });
+                });
+            });
+
+            // If login is successful, navigate to the home screen
+            navigation.navigate('Home');
         } catch (error) {
             // Handle error
+            console.log(error);
         }
-        // If login is successful, navigate to the home screen
-        navigation.navigate('Home');
-    }
+    };
     const handleLogin = () => {
         signInWithApple();
     };

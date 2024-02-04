@@ -1,9 +1,10 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
+import Realm from 'realm';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './LoginScreen.js'; // Replace with your actual login screen component
 import HomeScreen from './HomeScreen.js';
+import { UserSchema } from './models.js';
 
 
 
@@ -17,6 +18,14 @@ const dimensions = Dimensions.get('window');
 const Stack = createStackNavigator();
 
 const App = () => {
+  useEffect(() => {
+    // Initialize realm
+    Realm.open({
+      schema: [UserSchema],
+      schemaVersion: 0,
+    }).then((realm) => {
+      console.log('Realm is ready', realm);
+    });}, []);
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login"
@@ -29,6 +38,7 @@ const App = () => {
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
+}
+
 
 export default App;
