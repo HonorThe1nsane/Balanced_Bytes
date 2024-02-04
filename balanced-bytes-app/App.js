@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './LoginScreen.js'; // Replace with your actual login screen component
 import HomeScreen from './HomeScreen.js';
+import NewUserPage from './NewUserPage.js';
 import { UserSchema } from './models.js';
 
 
@@ -24,7 +25,12 @@ const App = () => {
       schema: [UserSchema],
       schemaVersion: 0,
     }).then((realm) => {
-      console.log('Realm is ready', realm);
+      const existingUser = realm.objects('User')[0];
+      const initialRouteName = existingUser ? 'Home' : 'NewUserPage';
+      //Close the Realm instance
+      realm.close();
+      // Set the initial route based on the check
+      navigationRef.current?.navigate(initialRouteName);
     });}, []);
   return (
     <NavigationContainer>
@@ -35,6 +41,7 @@ const App = () => {
       }}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="NewUserPage" component={NewUserPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

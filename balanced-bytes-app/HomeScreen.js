@@ -1,19 +1,65 @@
-import React , { useState } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View, Image, SafeAreaView, TouchableOpacity } from 'react-native';
 
-const defaultProfile = {
-    name: 'Troy Davidson',
-    imagePath: './assets/generic_profile.jpeg', // Replace with a valid URI
-};
 
-const householdChildren = [
-    { id: 1, name: 'Hyrum' },
-    { id: 2, name: 'Tommy' },
-    // Add more children as needed
-];
-const user = realm.objects('User').filtered(`id = "${userId}"`)[0];
 
 const HomeScreen = () => {
+    const defaultProfile = {
+        name: 'Troy Davidson',
+        image: './assets/generic_profile.jpeg', // Replace with a valid URI
+    };
+
+    const householdChildren = [
+        { id: 1, name: 'Hyrum' },
+        { id: 2, name: 'Tommy' },
+        // Add more children as needed
+    ];
+    const user = realm.objects('User').filtered(`id = "${userId}"`)[0];
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [newChildName, setNewChildName] = useState('')
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
+    const handleAddChild = async () => {
+        //Add a child to the household
+        if (newChildName.trim() !== '') {
+            try {
+                // Open the Realm database
+                const realm = await Realm.open({
+                    schema: [UserSchema, ChildSchema], // Assuming you have a ChildSchema defined
+                    schemaVersion: 0,
+                });
+                // Begin a write transaction
+                realm.write(() => {
+                    // Find the currently logged-in user
+                    const user = realm.objects('User')[0];
+
+                    // Create a new Child object
+                    const newChild = {
+                        id: user.children.length + 1, // Generate a unique ID
+                        name: newChildName.trim(),
+                        age: newChild.age.trim(),
+                    };
+
+                    // Add the new child to the user's children list
+                    user.children.push(newChild);
+                });
+
+                // Close the Realm database
+                realm.close();
+
+                // Reset the newChildName state
+                setNewChildName('');
+                // Reset Age state
+                setNewChildAgent(null);
+                // Close the modal
+                setModalVisible(false);
+            } catch (error) {
+                console.error('Error adding child:', error);
+            }
+        }
+    };
     if (user) {
         return (
             <SafeAreaView style={styles.container}>
@@ -25,7 +71,6 @@ const HomeScreen = () => {
                     <View style={styles.contentContainer}>
                         <Text style={styles.welcomeText}>Welcome {user.name}</Text>
                         <Image source={require('./assets/b_b_loading.png')} style={styles.profilePic} />
-
                         <View style={styles.householdSection}>
                             <Text style={styles.sectionTitle}>Household</Text>
                             {householdChildren.length > 0 ? (
@@ -37,13 +82,41 @@ const HomeScreen = () => {
                             ) : (
                                 <Text style={styles.childText}>No children in the household</Text>
                             )}
-                            <TouchableOpacity onPress={() => handleAddChild()}>
-                                <Text style={styles.addButton}>Add Child</Text>
+                            {/* Add button */}
+                            <TouchableOpacity onPress={toggleModal} style={styles.addButton}>
+                                <Text style={styles.addButtonText}>Add Child</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
+                    {/* Modal for adding a child */}
+                    <Modal visible={isModalVisible} animationType="slide" transparent>
+                        <View style={styles.modalContainer}>
+                            <View style={styles.modalContent}>
+                                <Text style={styles.modalTitle}>Add Child</Text>
+                                <TextInput
+                                    placeholder="Child's First Name"
+                                    value={newChildName}
+                                    onChangeText={(text) => setNewChildName(text)}
+                                    style={styles.inputField}
+                                />
+                                <TextInput
+                                    placeholder="Child's Age"
+                                    value={newChildName}
+                                    onChangeText={(text) => setNewChildAge(text)}
+                                    style={styles.inputField}
+                                />
+                                <TouchableOpacity onPress={handleAddChild} style={styles.modalButton}>
+                                    <Text style={styles.modalButtonText}>Add</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={toggleModal} style={styles.modalButton}>
+                                    <Text style={styles.modalButtonText}>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+
                 </ScrollView>
-            </SafeAreaView>
+            </SafeAreaView >
         );
     }
     return (
@@ -55,7 +128,7 @@ const HomeScreen = () => {
                 />
                 <View style={styles.contentContainer}>
                     <Text style={styles.welcomeText}>Welcome {defaultProfile.name}</Text>
-                    <Image source={require(defaultProfile.imagePath)} style={styles.profilePic} />
+                    {/* <Image source={require(defaultProfile.image)} style={styles.profilePic} /> */}
                     <View style={styles.householdSection}>
                         <Text style={styles.sectionTitle}>Household</Text>
                         {householdChildren.map((child) => (
@@ -120,6 +193,54 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 5,
         textAlign: 'center',
+    },
+    addButton: {
+        backgroundColor: 'blue',
+        padding: 10,
+        borderRadius: 8,
+        marginTop: 20,
+    },
+    addButtonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+
+    // Modal styles
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 8,
+        width: '80%',
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    inputField: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        padding: 10,
+        marginBottom: 10,
+    },
+    modalButton: {
+        backgroundColor: 'blue',
+        padding: 10,
+        borderRadius: 8,
+        marginTop: 10,
+    },
+    modalButtonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
 

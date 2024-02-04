@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as AppleAuthentication from 'expo-apple-authentication'; // Apple login
 import { useNavigation } from '@react-navigation/native';
 import Realm from 'realm';
-import { UserSchema } from '.Models.js';
+import { UserSchema } from './models.js';
 
 
 

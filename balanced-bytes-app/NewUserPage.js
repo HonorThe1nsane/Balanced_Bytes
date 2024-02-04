@@ -1,4 +1,4 @@
-import React , { useState } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View, Image, SafeAreaView, TouchableOpacity } from 'react-native';
 import Realm from 'realm';
 
@@ -7,7 +7,7 @@ const user = realm.objects('User').filtered(`id = "${userId}"`)[0];
 const handleAddChild = () => {
     // Implement logic to add a child to the household
     // You can navigate to a new screen for adding a child or show a modal, etc.
-  };
+};
 const NewUser = () => {
     return (
         <SafeAreaView style={styles.container}>

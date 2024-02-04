@@ -19,6 +19,7 @@ const ChildSchema = {
         id: 'int',
         name: 'string',
         parentId: 'int',
+        age: 'int',
         // other child properties
     },
 };
