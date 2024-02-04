@@ -34,18 +34,18 @@ const MealSchema = {
     },
 };
 
-// Open the realm and write data
-const realm = new Realm({ schema: [UserSchema, ChildSchema, MealSchema] });
+// // Open the realm and write data
+// const realm = new Realm({ schema: [UserSchema, ChildSchema, MealSchema] });
 
-realm.write(() => {
-    const user = realm.create('User', { id: 1, name: 'John' });
-    const child = realm.create('Child', { id: 1, name: 'Emily', parentId: user.id });
-    const meal = realm.create('Meal', { id: 1, childId: child.id, timestamp: new Date(), /* other meal data */ });
-});
+// realm.write(() => {
+//     const user = realm.create('User', { id: 1, name: 'John' });
+//     const child = realm.create('Child', { id: 1, name: 'Emily', parentId: user.id });
+//     const meal = realm.create('Meal', { id: 1, childId: child.id, timestamp: new Date(), /* other meal data */ });
+// });
 
-// Query data
-const users = realm.objects('User');
-const children = realm.objects('Child').filtered('parentId == $0', user.id);
-const meals = realm.objects('Meal').filtered('childId == $0', child.id);
+// // Query data
+// const users = realm.objects('User');
+// const children = realm.objects('Child').filtered('parentId == $0', user.id);
+// const meals = realm.objects('Meal').filtered('childId == $0', child.id);
 
 
