@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View, Image, SafeAreaView, TouchableOpacity } from 'react-native';
-import Realm from 'realm';
+// import Realm from 'realm';
 
 const user = realm.objects('User').filtered(`id = "${userId}"`)[0];
 
