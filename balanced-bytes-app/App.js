@@ -6,6 +6,7 @@ import LoginScreen from './LoginScreen.js'; // Replace with your actual login sc
 import HomeScreen from './HomeScreen.js';
 import NewUserPage from './NewUserPage.js';
 import { UserSchema } from './models.js';
+import { AppRegistry } from 'react-native';
 
 
 

@@ -19,7 +19,8 @@
     ],
     "ios": {
       "usesAppleSignIn": true,
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.balanced-bytes-app"
     },
     "android": {
       "adaptiveIcon": {
